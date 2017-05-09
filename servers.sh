@@ -104,7 +104,6 @@ else
 			;;
 
 		offline|stop)
-
 			stopApache
 			stopMySQL
 			toggleGeekToolServerGroup false
