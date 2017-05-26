@@ -3,6 +3,8 @@
 #	this script initializes a new shell script
 
 ##VARS
+#authorName=$USER
+authorName="Kenneth Dait"
 dateStr=$(date +%Y%m%d_%H%M%S)	#used for default name
 creationDateString=$(date +%c)		#used for metadata in the hader of the new script
 defaultScriptName="${dateStr}.sh"		#the unique default script name
@@ -101,7 +103,7 @@ verifyCreationOfFile() {
 testCommandExitStatus() {
 	#must pass "$?" as $1
 	capturedStatus=$1
-	if [ -z $capturedStatus ]; then 
+	if [ -z $capturedStatus ]; then
 		echo "ERROR: there was a problem with error tolerance."
 		echo "Exiting..."
 		exit 1
@@ -127,6 +129,7 @@ fillScriptContents() {
 		(echo -en '#!' >> $TMPFILE && \
 		echo "${getUsersShell}" >> $TMPFILE && \
 		echo "#Name: ${scriptName}" >> $TMPFILE && \
+		echo "#Author: ${authorName}" >> $TMPFILE && \
 		echo "#Description: ${scriptDesc}" >> $TMPFILE && \
 		echo "#Created: ${creationDateString}" >> $TMPFILE && \
 		cat $TMPFILE >> $fullScriptPath) && \
@@ -135,7 +138,7 @@ fillScriptContents() {
 
 	if [[ $successfulCreation == "true" ]]; then
 		return
-	else 
+	else
 		reportErr
 	fi
 }
@@ -150,7 +153,7 @@ cleanUp() {
 setScriptFileParameters
 #these should now be set
 #echo $scriptName && echo $scriptDesc
-verifyCreationOfFile 
+verifyCreationOfFile
 touch $fullScriptPath; testCommandExitStatus $? "the touch command"
 chmod +x $fullScriptPath; testCommandExitStatus $? "making the script executable"
 [[ -x $fullScriptPath ]] && echo \
