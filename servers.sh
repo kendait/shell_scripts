@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 httpdReport() {
 	httpdStatus=$(curl -sI http://localhost:80 | grep '^HTTP' | sed 's/[[:space:]]*$//')
