@@ -33,10 +33,26 @@ firewallReport() {
 	fi
 }
 
+vmReport() {
+	vmOnline=$(VBoxManage list runningvms | awk '{print $2}')
+	if [[ $vmOnline == "{9e07cbb2-1033-4eb5-bcaa-1ac835a636d4}" ]]; then
+		dashboardOnline="$(curl -sI http://sandbox.dev:8080/dashboard/ | awk 'NR==1{print}')"
+		dashboardOnline=$(echo $dashboardOnline | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+		if [[ "$(echo $dashboardOnline)" == "HTTP/1.1 200 OK" ]]; then
+			echo "Dashboard (sandbox.dev:8080) is online."
+		else
+			echo "Dashboard (sandbox.dev:8080) is offline (Sandbox VM is online)."
+		fi
+	else
+		echo "Sandbox VM is offline."
+	fi
+}
+
 serverReport() {
+	firewallReport
 	httpdReport
 	mysqlReport
-	firewallReport
+	vmReport
 }
 
 startApache() {

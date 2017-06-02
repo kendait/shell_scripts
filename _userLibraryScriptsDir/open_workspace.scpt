@@ -1,0 +1,1 @@
+mf_applescripts/open_workspace.scpt
